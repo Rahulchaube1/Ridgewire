@@ -2,6 +2,8 @@
 
 **Give your AI agent a GitHub URL and get the README back as JSON.** Ridgewire is an open-source Rust CLI for read-only research. Use it from a terminal, a script, or the tool runner behind your model.
 
+![A laptop terminal beside handwritten research notes in natural window light](docs/images/research.svg)
+
 ```sh
 ridgewire read https://github.com/Rahulchaube1/Ridgewire
 ```
@@ -125,7 +127,13 @@ Run `ridgewire run CHANNEL ACTION [TARGET] [--limit N]`. The limit is 1 through 
 
 The web, GitHub, V2EX and Xueqiu handlers use Rust HTTP requests. The other handlers require the named executables on PATH. Configure OpenCLI and its browser connection with that tool before using a browser channel. Provider text retains its source language.
 
-Transcription requires ffmpeg, whisper.cpp's whisper-cli and a compatible local model. Set RIDGEWIRE_WHISPER_MODEL to the model file. Audio is downloaded into a per-request temporary directory, decoded to mono PCM and passed to local inference. This edition does not require a cloud speech API key. Large media, inaccessible episodes and missing caption tracks can fail.
+### Local audio transcription
+
+![A portable audio recorder and wired headphones on a wooden desk](docs/images/transcription.svg)
+
+For a supported episode or video, Ridgewire downloads the audio, converts it to mono PCM with ffmpeg, and hands it to whisper.cpp for transcription on your machine.
+
+Transcription requires ffmpeg, whisper.cpp's whisper-cli and a compatible local model. Set RIDGEWIRE_WHISPER_MODEL to the model file. Downloaded audio stays in a per-request temporary directory during processing. This edition does not require a cloud speech API key. Large media, inaccessible episodes and missing caption tracks can fail.
 
 ## Manage channels
 
