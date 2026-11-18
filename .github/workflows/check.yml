@@ -1,0 +1,33 @@
+name: Rust checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo test --all-targets
+      - run: cargo build --release
+      - run: cargo run --release -- channels
+      - name: Check live GitHub repository read
+        if: runner.os == 'Linux' && github.event_name == 'push'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -eo pipefail
+          ./target/release/ridgewire read "https://github.com/$GITHUB_REPOSITORY" |
+            jq -e --arg repo "$GITHUB_REPOSITORY" '.ok and .data.repository.full_name == $repo and (.data.readme | length > 0)'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ridgewire-${{ runner.os }}-${{ runner.arch }}
+          path: |
+            target/release/ridgewire
+            target/release/ridgewire.exe
+            LICENSE
+          if-no-files-found: error
