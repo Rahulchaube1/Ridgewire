@@ -1,6 +1,18 @@
 # Ridgewire
 
-Ridgewire is a read-only command-line tool for agents that gather web pages, repository discussions, public platform data and media transcripts. It is an English-language Rust rewrite based on Agent Reach 1.6.1. The executable is called `ridgewire`.
+**Give your AI agent a GitHub URL and get the README back as JSON.** Ridgewire is an open-source Rust CLI for read-only research. Use it from a terminal, a script, or the tool runner behind your model.
+
+```sh
+ridgewire read https://github.com/Rahulchaube1/Ridgewire
+```
+
+The result includes `data.repository.full_name`, `data.repository.html_url`, and `data.readme`. Your agent can read what the project actually says and link back to the source. This public GitHub example works without an API key. The Linux build runs this exact read against the live repository.
+
+[Install Ridgewire](#install-ridgewire) · [Connect an AI assistant](#use-ridgewire-with-an-ai-assistant) · [See the live test](https://github.com/Rahulchaube1/Ridgewire/actions/runs/44284242189/job/134732654039)
+
+Working with more than one source? Send several queries in one batch and get one JSON result per line in the same order. The [channel reference](#channels) lists all 14 sources, their actions, and any tools or credentials they require.
+
+If you try Ridgewire in an agent, [share the command you ran and what you wanted back](https://github.com/Rahulchaube1/Ridgewire/issues/new). A real query that failed is especially helpful.
 
 [![Rust checks](https://github.com/Rahulchaube1/Ridgewire/actions/workflows/check.yml/badge.svg)](https://github.com/Rahulchaube1/Ridgewire/actions/workflows/check.yml)
 
